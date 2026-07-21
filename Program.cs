@@ -63,14 +63,25 @@ string baglantiyolu= "Server=127.0.0.1; Port=3306;Database=ekayit;Uid=root;Pwd=;
         Console.Write("Silinecek Üyenin adı : ");
         string silinecek;
         silinecek = Console.ReadLine();
-        uyeler.Remove(silinecek);
+         using (MySqlConnection baglanti= new MySqlConnection(baglantiyolu)) 
+        {
+            baglanti.Open();
+            string sil = "delete from uyeler where uye_adi=@silinecek";
+            using MySqlCommand komut = new MySqlCommand(sil,baglanti);
+            komut.Parameters.AddWithValue("@silinecek", silinecek);
+            komut.ExecuteNonQuery();
+        }
+        
+        
         Console.WriteLine(silinecek + " üyesi başarıyla silindi ");
 
     }
     else if (secilen == 4)
     {
         Console.WriteLine("çıkış yapıldı..\n");
+        Environment.Exit(0);
         break;
+        
     }
 }
 
